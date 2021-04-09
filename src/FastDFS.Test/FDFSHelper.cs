@@ -61,7 +61,7 @@ namespace FastDFS.Test
             EnsureConnectionInitialize(config, server);
 
             var group = config.StorageGroup;
-            var storageNode = await FastDFSClient.GetStorageNodeAsync(group);
+            var storageNode = await FastDFSClient.GetStorageNodeAsync(group, server);
             string paths = await FastDFSClient.UploadFileAsync(storageNode, contentBytes, imageType, server);
 
             StringBuilder resultImageUrl = new StringBuilder();

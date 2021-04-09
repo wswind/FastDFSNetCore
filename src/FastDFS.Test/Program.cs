@@ -113,7 +113,7 @@ namespace FastDFS.Test
         /// <returns></returns>
         private static async Task UploadAsync2(string storageLink, byte[] fileBytes)
         {
-            StorageNode storageNode = await FastDFSClient.GetStorageNodeAsync("group1");
+            StorageNode storageNode = await FastDFSClient.GetStorageNodeAsync("group1", "default");
             var str = await FastDFSClient.UploadFileAsync(storageNode, fileBytes, "jpg", "default");
             Console.WriteLine(storageLink + str);
 
@@ -128,7 +128,7 @@ namespace FastDFS.Test
         /// <returns></returns>
         private static async Task UploadAsync(string storageLink)
         {
-            StorageNode storageNode = await FastDFSClient.GetStorageNodeAsync("group1");
+            StorageNode storageNode = await FastDFSClient.GetStorageNodeAsync("group1","server");
             string[] files = Directory.GetFiles("testimage", "*.jpg");
             string[] strArrays = files;
             for (int i = 0; i < strArrays.Length; i++)
@@ -183,7 +183,7 @@ namespace FastDFS.Test
         /// <returns></returns>
         private static void SyncTest()
         {
-            StorageNode storageNode = FastDFSClient.GetStorageNodeAsync("group1").GetAwaiter().GetResult();
+            StorageNode storageNode = FastDFSClient.GetStorageNodeAsync("group1","server").GetAwaiter().GetResult();
             string[] files = Directory.GetFiles("testimage", "*.jpg");
             string[] strArrays = files;
             for (int i = 0; i < strArrays.Length; i++)
@@ -210,7 +210,7 @@ namespace FastDFS.Test
         private static async Task UploadAppendFile()
         {
             var testBytes = Encoding.UTF8.GetBytes("123456789");
-            StorageNode storageNode = await FastDFSClient.GetStorageNodeAsync("group1");
+            StorageNode storageNode = await FastDFSClient.GetStorageNodeAsync("group1","server");
             var filename = await FastDFSClient.UploadAppenderFileAsync(storageNode, testBytes.Take(6).ToArray(), "", "default");
             FDFSFileInfo fileInfo = await FastDFSClient.GetFileInfoAsync(storageNode, filename, "default");
             if (fileInfo == null)
@@ -243,7 +243,7 @@ namespace FastDFS.Test
         private static async Task DownLoadFile()
         {
             var testBytes = Encoding.UTF8.GetBytes("12345678911118888888888888888881111111111");
-            StorageNode storageNode = await FastDFSClient.GetStorageNodeAsync("group1");
+            StorageNode storageNode = await FastDFSClient.GetStorageNodeAsync("group1","default");
             var filename = await FastDFSClient.UploadFileAsync(storageNode, testBytes, "txt", "default");
 
             var bytes = await FastDFSClient.DownloadFileAsync(storageNode, filename, "default");
@@ -265,7 +265,7 @@ namespace FastDFS.Test
         {
             var temp = Enumerable.Repeat((byte)99, 1024 * 1024 * 100);
             var testBytes = temp.ToArray();
-            StorageNode storageNode = await FastDFSClient.GetStorageNodeAsync("group1");
+            StorageNode storageNode = await FastDFSClient.GetStorageNodeAsync("group1", "default");
 
             var filename = await FastDFSClient.UploadFileAsync(storageNode, testBytes, "txt", "default");
 
@@ -284,7 +284,7 @@ namespace FastDFS.Test
         {
             var temp = Enumerable.Repeat((byte)99, 1024 * 1024 * 100);
             var testBytes = temp.ToArray();
-            StorageNode storageNode = await FastDFSClient.GetStorageNodeAsync("group1");
+            StorageNode storageNode = await FastDFSClient.GetStorageNodeAsync("group1", "default");
 
 
             var filename = await FastDFSClient.UploadAppenderFileAsync(storageNode, testBytes.Take(1024 * 1024 * 2).ToArray(), "txt", "default");

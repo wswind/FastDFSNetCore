@@ -39,13 +39,15 @@ namespace FastDFS.Client
             return pool.GetConnectionAsync();
         }
 
-
         public static Dictionary<string, ConnectionManager> ManagerMap = new Dictionary<string, ConnectionManager>();
 
         public static void Initialize(IEnumerable<EndPoint> trackers, string server)
         {
-            var manager = new ConnectionManager(trackers);
-            ManagerMap.Add(server, manager);
+            if(!ManagerMap.ContainsKey(server))
+            {
+                var manager = new ConnectionManager(trackers);
+                ManagerMap.Add(server, manager);
+            }
         }
 
         public static ConnectionManager GetManager(string server)
