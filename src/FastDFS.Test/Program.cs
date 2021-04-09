@@ -23,7 +23,7 @@ namespace FastDFS.Test
             {
                 new IPEndPoint(IPAddress.Parse("192.168.197.128"), 22122)
             };
-            ConnectionManager.Initialize(pEndPoints, "");
+            ConnectionManager.Initialize(pEndPoints, "default");
 
             while (true)
             {
