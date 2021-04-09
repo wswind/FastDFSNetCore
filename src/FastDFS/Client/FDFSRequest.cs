@@ -45,17 +45,17 @@ namespace FastDFS.Client
             throw new NotImplementedException();
         }
 
-        public async Task<T> GetResponseAsync<T>() where T: IFDFSResponse, new ()
+        public async Task<T> GetResponseAsync<T>(string server) where T: IFDFSResponse, new ()
         {
             try
             {
                 if (ConnectionType == FDFSConnectionType.TrackerConnection)
                 {
-                    _connection = await ConnectionManager.GetTrackerConnectionAsync();
+                    _connection = await ConnectionManager.GetManager(server).GetTrackerConnectionAsync();
                 }
                 else
                 {
-                    _connection = await ConnectionManager.GetStorageConnectionAsync(EndPoint);
+                    _connection = await ConnectionManager.GetManager(server).GetStorageConnectionAsync(EndPoint);
                 }
                 await _connection.OpenAsync();
 

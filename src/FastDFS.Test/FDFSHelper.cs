@@ -48,7 +48,7 @@ namespace FastDFS.Test
         /// <param name="contentBytes">比特数组</param>
         /// <param name="imageType">图片类型</param>
         /// <returns>图片地址</returns>
-        public static async Task<string> FastDFSUploadFile(byte[] contentBytes, string imageType)
+        public static async Task<string> FastDFSUploadFile(byte[] contentBytes, string imageType, string server)
         {
             if (contentBytes == null || contentBytes.Length == 0)
                 throw new ArgumentNullException("contentBytes");
@@ -58,11 +58,11 @@ namespace FastDFS.Test
 
             var config = await GetFastDfsConfig();
 
-            EnsureConnectionInitialize(config);
+            EnsureConnectionInitialize(config, server);
 
             var group = config.StorageGroup;
             var storageNode = await FastDFSClient.GetStorageNodeAsync(group);
-            string paths = await FastDFSClient.UploadFileAsync(storageNode, contentBytes, imageType);
+            string paths = await FastDFSClient.UploadFileAsync(storageNode, contentBytes, imageType, server);
 
             StringBuilder resultImageUrl = new StringBuilder();
             var storageLink = config.StorageServerLink;
@@ -80,7 +80,7 @@ namespace FastDFS.Test
         /// <summary>
         /// 初始Connection
         /// </summary>
-        private static void EnsureConnectionInitialize(FDFSConfig config)
+        private static void EnsureConnectionInitialize(FDFSConfig config, string server)
         {
             if (!_isInitialize)
             {
@@ -93,7 +93,7 @@ namespace FastDFS.Test
                         List<IPEndPoint> trackerIPs = new List<IPEndPoint>();
                         IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(trackerIp), trackerPort);
                         trackerIPs.Add(endPoint);
-                        ConnectionManager.Initialize(trackerIPs);
+                        ConnectionManager.Initialize(trackerIPs, server);
                         _isInitialize = true;
                     }
                 }
