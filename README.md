@@ -1,6 +1,6 @@
 # FastDFSNetCore
 
-a fork from <https://github.com/caozhiyuan/FastDFSNetCor>
+a fork from <https://github.com/caozhiyuan/FastDFSNetCore>
 
 add support for connecting muti fastdfs service.
 
